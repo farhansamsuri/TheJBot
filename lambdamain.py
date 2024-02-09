@@ -9,8 +9,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 print('main.py is running')
 app = Flask(__name__)
-TELEGRAM_TOKEN: Final = '6721148638:AAHwpUUxRot21GEx35UweWFhwKD8kfvmYLo'
-BOT_USERNAME = '@JessBetBot' 
+TELEGRAM_TOKEN: Final = os.environ.get('TOKEN')
+BOT_USERNAME = os.environ.get('BOT_USERNAME') 
 
 # Lambda Caller
 def lambda_handler(event, context):

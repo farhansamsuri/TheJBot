@@ -1,3 +1,4 @@
+import os
 import json
 import requests
 # from config import types
@@ -5,8 +6,8 @@ from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN: Final = '6721148638:AAHwpUUxRot21GEx35UweWFhwKD8kfvmYLo'
-BOT_USERNAME: Final = '@JessBetBot'
+TOKEN: Final = os.environ.get('TOKEN')
+BOT_USERNAME = os.environ.get('BOT_USERNAME') 
 
     # Lambda Caller
 def lambda_handler(event, context):
