@@ -1,22 +1,37 @@
-name: AWS Lambda Deploy
+name: Deploy Python Lambda
+
 on:
   push:
     branches:
       - main
+    paths:
+      - '**.py' # Change to the file extension of the language that you are using.
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2 # To fetch the current commit and its parent (so we can compare)
 
-      - name: AWS Lambda Deploy
-        uses: jsmrcaga/action-easy-lambda-deploy@v0.0.3
-        with:
-          function_name: JessBetBot-main
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Setup AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-1 # Modify this to your desired AWS region
 
+    - name: Print changed files # To properly debug what is being deployed (It can be removed).
+      run: |
+        echo "List of changed files:" 
+        echo $(git diff --name-only HEAD^ HEAD)
+
+    - name: Deploy Lambda Function
+      run: |
+        # Constants
+        LAMBDA_FUNCTION_NAME= JessBetBot-main
+        # Update Lambda function code directly from the repository
+        aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://<(zip -r - . -x "*.git*" -x "*.github*" -x "*.DS_Store*")
