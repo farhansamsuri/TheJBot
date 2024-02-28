@@ -1,18 +1,22 @@
-            - name: AWS Lambda Deploy
-  # You may pin to the exact commit or the version.
-  # uses: jsmrcaga/action-easy-lambda-deploy@4ec693ce46a3384db68e99e8a72f469172160376
-  uses: jsmrcaga/action-easy-lambda-deploy@v0.0.3
-  with: 
-    # Name of your lambda function
-    function_name: JessBetBot-main 
-    # Directory to work on. Relative to root
-    cwd: # optional
-    # Region where your lambda is deployed
-    region: ap-southeast-1
-    # Specific files to include in ZIP (to exclude temp files for example).
-    zip_files: # optional
-    # Specific "zip" command to run
-This will override zip_files
+name: AWS Lambda Deploy
+on:
+  push:
+    branches:
+      - main
 
-    zip_command: # optional
-          
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: AWS Lambda Deploy
+        uses: jsmrcaga/action-easy-lambda-deploy@v0.0.3
+        with:
+          function_name: JessBetBot-main
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
