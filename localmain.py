@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     #send_text = 'https://api.telegram.org/bot' + TOKEN + '/sendMes\'&parse_mode=HTML&text=' + bot_message
     #response = requests.get(send_text)
     #print(response)
-    #test workflow with a simple change here
+    #test workflow with a simple change here!
     return {
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')

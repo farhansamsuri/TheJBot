@@ -32,6 +32,6 @@ jobs:
     - name: Deploy Lambda Function
       run: |
         # Constants
-        LAMBDA_FUNCTION_NAME= JessBetBot-main
+        LAMBDA_FUNCTION_NAME= "JessBetBot-main"
         # Update Lambda function code directly from the repository
         aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://<(zip -r - . -x "*.git*" -x "*.github*" -x "*.DS_Store*")
